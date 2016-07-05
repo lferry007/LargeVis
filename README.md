@@ -17,6 +17,27 @@ To complile the source files, use Microsoft Visual Studio, where you need to set
 To install the Python wrapper, modify ```setup.py``` to make sure that the BOOST path is correctly set and then run ```python setup.py install```.
 
 ##Usage
+LargeVis is suitable for visualizing both high-dimensional feature vectors and networks.
+
+For high-dimensional feature vectors, the input file should be as follows: the first line specifies the number of feature vectors and the dimensionality (500 vectors with 10 dimensions in the following example), and each of the next 500 lines decribes one feature vector, by 10 float numbers.
+```
+500 10
+1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+...
+...
+1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+```
+
+For networks, the input file should be as follows: each line of the input file describes an edge, by two integer numbers and one float nubmer ```X Y W```, where ```X``` is the source node, ```Y``` is the target node, and ```W``` is the edge weight.
+```
+0 1 2.5
+2 5 4.5
+3 10 3.0
+...
+...
+495 498 1.5
+```
 For C++ executable file,
 ```
 ./LargeVis -input -output
@@ -43,7 +64,7 @@ Besides the three parameters, other optional parameters include:
 * `-perp`: The perplexity used for deciding edge weights in K-NNG. Default is 50.
 
 ##Examples
-We provide some examples including MNIST and co-author networks in the ```Examples/``` folder.
+We provide some examples including MNIST(high-dimensional feature vectors) and CondMat(networks) in the ```Examples/``` folder.
 
 For example, to visualize the MNIST dataset,
 ```
