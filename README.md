@@ -27,10 +27,12 @@ LargeVis is suitable for visualizing both high-dimensional feature vectors and n
 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
 ```
 
-For networks, each line of the input file is an edge ```(X, Y, W)```, in which ```X``` is the source node, ```Y``` is the target node, and ```W``` is the weight of the edge. For example,
+For networks, each line of the input file is a DIRECTED edge. For each undirected edge, users must use TWO DIRECTED edges to represent it. For example,
 ```
 0 1 2.5
+1 0 2.5
 2 5 4.5
+5 2 4.5
 3 10 3.0
 ...
 ...
