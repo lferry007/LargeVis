@@ -45,11 +45,11 @@ or for Python,
 python LargeVis_run.py -input -output
 ```
 
-* `-fea`: specify whether the input file is high-dimensional feature vectors (1) or networks (0). Default is 1. 
 * `-input`: Input file of feature vectors or networks (see the Example folders for input format).
 * `-output`: Output file of low-dimensional representations.
 
-Besides the three parameters, other optional parameters include:
+Besides the two parameters, other optional parameters include:
+* `-fea`: specify whether the input file is high-dimensional feature vectors (1) or networks (0). Default is 1. 
 * `-threads`: Number of threads. Default is 8.
 * `-outdim`: The lower dimensionality LargesVis learns for visualization (usually 2 or 3). Default is 2.
 * `-samples`: Number of edge samples for graph layout (in millions). Default is set to ```data size / 100``` (million). 
