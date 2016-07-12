@@ -19,7 +19,7 @@ To install the Python wrapper, modify ```setup.py``` to make sure that the BOOST
 ##Usage
 LargeVis is suitable for visualizing both high-dimensional feature vectors and networks.
 
-For high-dimensional feature vectors, the input file should be as follows: the first line specifies the number of feature vectors and the dimensionality (500 vectors with 10 dimensions in the following example), and each of the next 500 lines decribes one feature vector, by 10 float numbers.
+For high-dimensional feature vectors, the format of input file should be as follows: the first line specifies the number of feature vectors and the dimensionality (500 vectors with 10 dimensions in the following example), and each of the next 500 lines describes one feature vector with 10 float numbers.
 ```
 500 10
 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
@@ -29,7 +29,7 @@ For high-dimensional feature vectors, the input file should be as follows: the f
 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
 ```
 
-For networks, the input file should be as follows: each line of the input file describes an edge, by two integer numbers and one float nubmer ```X Y W```, where ```X``` is the source node, ```Y``` is the target node, and ```W``` is the edge weight.
+For networks, each line of the input file is an edge ```(X, Y, W)```, in which ```X``` is the source node, ```Y``` is the target node, and ```W``` is the weight of the edge. For example,
 ```
 0 1 2.5
 2 5 4.5
