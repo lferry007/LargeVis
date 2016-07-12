@@ -2,7 +2,7 @@ import LargeVis
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-fea', default = 1, type = int, help = 'whether to visualize embeddings')
+parser.add_argument('-fea', default = 1, type = int, help = 'whether to visualize high-dimensional feature vetors or networks')
 parser.add_argument('-input', default = '', help = 'input file')
 parser.add_argument('-output', default = '', help = 'output file')
 parser.add_argument('-outdim', default = -1, type = int, help = 'output dimensionality')
