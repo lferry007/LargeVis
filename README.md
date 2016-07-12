@@ -17,9 +17,7 @@ To complile the source files, use Microsoft Visual Studio, where you need to set
 To install the Python wrapper, modify ```setup.py``` to make sure that the BOOST path is correctly set and then run ```python setup.py install```.
 
 ##Usage
-LargeVis is suitable for visualizing both high-dimensional feature vectors and networks.
-
-For high-dimensional feature vectors, the format of input file should be as follows: the first line specifies the number of feature vectors and the dimensionality (500 vectors with 10 dimensions in the following example), and each of the next 500 lines describes one feature vector with 10 float numbers.
+LargeVis is suitable for visualizing both high-dimensional feature vectors and networks. For high-dimensional feature vectors, the format of input file should be as follows: the first line specifies the number of feature vectors and the dimensionality (500 vectors with 10 dimensions in the following example), and each of the next 500 lines describes one feature vector with 10 float numbers.
 ```
 500 10
 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
