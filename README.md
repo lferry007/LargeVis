@@ -12,7 +12,7 @@ g++ LargeVis.cpp main.cpp -o LargeVis -lm -pthread -lgsl -lgslcblas -Ofast -marc
 To install the Python wrapper, modify ```setup.py``` to make sure that the GSL path is correctly set and then run ```sudo python setup.py install```.
 
 ####Windows
-To complile the source files, use Microsoft Visual Studio, where you need to set the BOOST path.
+To compile the source files, use Microsoft Visual Studio, where you need to set the BOOST path.
 
 To install the Python wrapper, modify ```setup.py``` to make sure that the BOOST path is correctly set and then run ```python setup.py install```.
 
