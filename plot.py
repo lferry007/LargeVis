@@ -26,7 +26,7 @@ for i, line in enumerate(open(args.input)):
     elif i <= N:
         if args.label == '':
             label.append(0)
-        all_data.setdefault(label[i-1], []).append((float(vec[1]), float(vec[2])))
+        all_data.setdefault(label[i-1], []).append((float(vec[-2]), float(vec[-1])))
 
 colors = plt.cm.rainbow(numpy.linspace(0, 1, len(all_data)))
 
