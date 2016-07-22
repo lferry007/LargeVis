@@ -88,7 +88,7 @@ python plot.py -input mnist_vec2D.txt -label mnist_label.txt -output mnist_vec2D
 
 ![plot of mnist](Examples/MNIST/mnist_plot.png)
 
-Please cite the following paper if you use it to visualize your data.
+Please cite the following paper if you use LargeVis to visualize your data.
 ##Citation
 ```
 @inproceedings{tang2016visualizing,
@@ -100,3 +100,5 @@ Please cite the following paper if you use it to visualize your data.
   organization={International World Wide Web Conferences Steering Committee}
 }
 ```
+##Acknowledgement
+Some methods of this package are from a previous work of the LargeVis authors, [LINE (Large-scale Information Network Embedding)](https://github.com/tangjianpku/LINE).
