@@ -2,7 +2,8 @@
 This is an implementation of the **LargeVis** model for visualizing large-scale and high-dimensional data [(Tang, Liu, Zhang and Mei)](https://arxiv.org/abs/1602.00370). It now supports visualizing both high-dimensional feature vectors and networks. The package also contains a very efficient algorithm for nearest neighbor search.
 
 ##Install
-Both C++ source codes and Python wrapper are provided on both Linux and Windows. To install the package, external packages are required, including [GSL (GNU Scientific Library)](http://www.gnu.org/software/gsl/) on Linux or [BOOST](http://www.boost.org/) on Windows for generating random numbers.
+Both C++ source codes and Python wrapper are provided on Linux, OS X and Windows. To install the package, external packages are required, including [GSL (GNU Scientific Library)](http://www.gnu.org/software/gsl/) on Linux and OS X or [BOOST](http://www.boost.org/) on Windows for generating random numbers.
+
 ####Linux
 Compile the source files via:
 ```
@@ -10,6 +11,19 @@ g++ LargeVis.cpp main.cpp -o LargeVis -lm -pthread -lgsl -lgslcblas -Ofast -marc
 ```
 
 To install the Python wrapper, modify ```setup.py``` to make sure that the GSL path is correctly set and then run ```sudo python setup.py install```.
+
+####OS X
+Install gsl using [Homebrew](http://brew.sh/):
+```
+brew install gsl
+```
+
+Modify line 347 of ```annoylib.h``` to change ```lseek64``` to ```lseek```. Then compile the source files (in the Linux folder) via:
+```
+g++ LargeVis.cpp main.cpp -o LargeVis -lm -pthread -lgsl -lgslcblas -Ofast -march=native -ffast-math -L/usr/local/lib -I/usr/local/include
+```
+
+To install the Python wrapper, run ```sudo python setup.py install```.
 
 ####Windows
 To complile the source files, use Microsoft Visual Studio, where you need to set the BOOST path.
