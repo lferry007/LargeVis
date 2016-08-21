@@ -35,7 +35,7 @@ void LargeVis::clean_model()
 	vis = prob = NULL;
 	knn_vec = old_knn_vec = NULL;
 	annoy_index = NULL;
-    neg_table NULL;
+    neg_table = NULL;
     alias = NULL;
 
 	edge_count_actual = 0;
