@@ -35,7 +35,7 @@ void LargeVis::clean_model()
 	vis = prob = NULL;
 	knn_vec = old_knn_vec = NULL;
 	annoy_index = NULL;
-    neg_table NULL;
+    neg_table = NULL;
     alias = NULL;
 
 	edge_count_actual = 0;
@@ -251,8 +251,8 @@ void LargeVis::init_alias_table()
 
 long long LargeVis::sample_an_edge(real rand_value1, real rand_value2)
 {
-	long long k = (long long)(n_edge * rand_value1);
-	return rand_value2 < prob[k] ? k : alias[k];
+	long long k = (long long)((n_edge - 0.1) * rand_value1);
+	return rand_value2 <= prob[k] ? k : alias[k];
 }
 
 void LargeVis::annoy_thread(int id)
@@ -407,7 +407,7 @@ void LargeVis::search_reverse_thread(int id)
 		for (p = head[x]; p >= 0; p = next[p])
 		{
 			y = edge_to[p];
-			for (q = head[x]; q >= 0; q = next[q])
+			for (q = head[y]; q >= 0; q = next[q])
 			{
 				if (edge_to[q] == x) break;
 			}
