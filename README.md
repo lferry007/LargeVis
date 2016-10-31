@@ -1,5 +1,7 @@
 #LargeVis
-This is an implementation of the **LargeVis** model for visualizing large-scale and high-dimensional data [(Tang, Liu, Zhang and Mei)](https://arxiv.org/abs/1602.00370). It now supports visualizing both high-dimensional feature vectors and networks. The package also contains a very efficient algorithm for nearest neighbor search.
+This is the *official* implementation of the **LargeVis** model for visualizing large-scale and high-dimensional data [(Tang, Liu, Zhang and Mei)](https://arxiv.org/abs/1602.00370). It now supports visualizing both high-dimensional feature vectors and networks. The package also contains a very efficient algorithm for nearest neighbor search.
+
+Contact: Jian Tang, tangjianpku@gmail.com
 
 ##Install
 Both C++ source codes and Python wrapper are provided on Linux, OS X and Windows. To install the package, external packages are required, including [GSL (GNU Scientific Library)](http://www.gnu.org/software/gsl/) on Linux and OS X or [BOOST](http://www.boost.org/) on Windows for generating random numbers.
