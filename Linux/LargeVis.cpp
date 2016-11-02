@@ -293,7 +293,7 @@ void LargeVis::run_annoy()
 	for (int j = 0; j < n_threads; ++j) pthread_create(&pt[j], NULL, LargeVis::annoy_thread_caller, new arg_struct(this, j));
 	for (int j = 0; j < n_threads; ++j) pthread_join(pt[j], NULL);
 	delete[] pt;
-    delete annoy_index; annoy_index = NULL;
+    	delete annoy_index; annoy_index = NULL;
 	printf(" Done.\n");
 }
 
@@ -375,7 +375,7 @@ void LargeVis::compute_similarity_thread(int id)
 		for (iter = 0; iter < 200; ++iter)
 		{
 			H = 0;
-            sum_weight = FLT_MIN;
+            		sum_weight = FLT_MIN;
 			for (p = head[x]; p >= 0; p = next[p])
 			{
 				sum_weight += tmp = exp(-beta * edge_weight[p]);
@@ -392,8 +392,8 @@ void LargeVis::compute_similarity_thread(int id)
 				hi_beta = beta;
 				if (lo_beta < 0) beta /= 2; else beta = (lo_beta + beta) / 2;
 			}
-            if(beta > FLT_MAX) beta = FLT_MAX;
-        }
+            		if(beta > FLT_MAX) beta = FLT_MAX;
+        	}
 		for (p = head[x], sum_weight = FLT_MIN; p >= 0; p = next[p])
 		{
 			sum_weight += edge_weight[p] = exp(-beta * edge_weight[p]);
