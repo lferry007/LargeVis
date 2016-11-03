@@ -348,7 +348,7 @@ void LargeVis::run_propagation()
 {
 	for (int i = 0; i < n_propagations; ++i)
 	{
-		printf("Running propagation %d/%d%c", i + 1, n_propagations, 13);
+		printf("Running propagation %d/%lld%c", i + 1, n_propagations, 13);
 		fflush(stdout);
 		old_knn_vec = knn_vec;
 		knn_vec = new std::vector<int>[n_vertices];
