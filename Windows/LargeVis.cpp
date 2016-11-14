@@ -1,5 +1,6 @@
 #include "LargeVis.h"
 #include <map>
+#include <float.h>
 
 boost::minstd_rand LargeVis::generator(42u);
 boost::uniform_real<> LargeVis::uni_dist(0, 1);
@@ -20,7 +21,7 @@ LargeVis::LargeVis()
 	knn_vec = old_knn_vec = NULL;
 	annoy_index = NULL;
 	head = alias = NULL;
-    neg_table = NULL;
+    	neg_table = NULL;
 }
 
 void LargeVis::clean_model()
@@ -35,8 +36,8 @@ void LargeVis::clean_model()
 	vis = prob = NULL;
 	knn_vec = old_knn_vec = NULL;
 	annoy_index = NULL;
-    neg_table = NULL;
-    alias = NULL;
+    	neg_table = NULL;
+    	alias = NULL;
 
 	edge_count_actual = 0;
 	neg_size = 1e8;
@@ -65,7 +66,7 @@ void LargeVis::load_from_file(char *infile)
 		printf("\nFile not found!\n");
 		return;
 	}
-    printf("Reading input file %s ......", infile); fflush(stdout);
+    	printf("Reading input file %s ......", infile); fflush(stdout);
 	fscanf(fin, "%lld%lld", &n_vertices, &n_dim);
 	vec = new real[n_vertices * n_dim];
 	for (long long i = 0; i < n_vertices; ++i)
@@ -170,7 +171,7 @@ long long LargeVis::get_out_dim()
 
 void LargeVis::normalize()
 {
-    printf("Normalizing ......"); fflush(stdout);
+    	printf("Normalizing ......"); fflush(stdout);
 	real *mean = new real[n_dim];
 	for (long long i = 0; i < n_dim; ++i) mean[i] = 0;
 	for (long long i = 0, ll = 0; i < n_vertices; ++i, ll += n_dim)
@@ -269,7 +270,7 @@ void LargeVis::annoy_thread(int id)
 	for (long long i = lo; i < hi; ++i)
 	{
 		cur_annoy_index->get_nns_by_item(i, n_neighbors + 1, (n_neighbors + 1) * n_trees, &knn_vec[i], NULL);
-		for (long long j = 0; j < knn_vec[i].size(); ++i)
+		for (long long j = 0; j < knn_vec[i].size(); ++j)
 			if (knn_vec[i][j] == i)
 			{
 				knn_vec[i].erase(knn_vec[i].begin() + j);
@@ -295,7 +296,7 @@ void LargeVis::run_annoy()
 	for (int i = 0; i < n_threads; ++i)
 		pt[i].join();
 	delete[] pt;
-    delete annoy_index; annoy_index = NULL;
+    	delete annoy_index; annoy_index = NULL;
 	printf(" Done.\n");
 }
 
@@ -368,7 +369,8 @@ void LargeVis::compute_similarity_thread(int id)
 		lo_beta = hi_beta = -1;
 		for (iter = 0; iter < 200; ++iter)
 		{
-			H = sum_weight = 0;
+			H = 0;
+            		sum_weight = FLT_MIN;
 			for (p = head[x]; p >= 0; p = next[p])
 			{
 				sum_weight += tmp = exp(-beta * edge_weight[p]);
@@ -385,8 +387,9 @@ void LargeVis::compute_similarity_thread(int id)
 				hi_beta = beta;
 				if (lo_beta < 0) beta /= 2; else beta = (lo_beta + beta) / 2;
 			}
+            		if(beta > FLT_MAX) beta = FLT_MAX;
 		}
-		for (p = head[x], sum_weight = 0; p >= 0; p = next[p])
+		for (p = head[x], sum_weight = FLT_MIN; p >= 0; p = next[p])
 		{
 			sum_weight += edge_weight[p] = exp(-beta * edge_weight[p]);
 		}
@@ -418,7 +421,7 @@ void LargeVis::search_reverse_thread(int id)
 
 void LargeVis::compute_similarity()
 {
-    printf("Computing similarities ......"); fflush(stdout);
+    	printf("Computing similarities ......"); fflush(stdout);
 	n_edge = 0;
 	head = new long long[n_vertices];
 	long long i, x, y, p, q;
@@ -436,8 +439,8 @@ void LargeVis::compute_similarity()
 			head[x] = n_edge++;
 		}
 	}
-    delete[] vec; vec = NULL;
-    delete[] knn_vec; knn_vec = NULL;
+    	delete[] vec; vec = NULL;
+    	delete[] knn_vec; knn_vec = NULL;
 	boost::thread *pt = new boost::thread[n_threads];
 	for (int j = 0; j < n_threads; ++j) pt[j] = boost::thread(&LargeVis::compute_similarity_thread, this, j);
 	for (int j = 0; j < n_threads; ++j) pt[j].join();
@@ -493,7 +496,7 @@ void LargeVis::test_accuracy()
 				++hit_case;
 		}
 	}
-    delete heap;
+    	delete heap;
 	printf("Test knn accuracy : %.2f%%\n", hit_case * 100.0 / (test_case * n_neighbors));
 }
 
@@ -516,7 +519,7 @@ void LargeVis::construt_knn()
 void LargeVis::init_neg_table()
 {
 	long long x, p, i;
-    reverse.clear(); vector<long long> (reverse).swap(reverse);
+    	reverse.clear(); vector<long long> (reverse).swap(reverse);
 	real sum_weights = 0, dd, *weights = new real[n_vertices];
 	for (i = 0; i < n_vertices; ++i) weights[i] = 0;
 	for (x = 0; x < n_vertices; ++x)
@@ -527,8 +530,8 @@ void LargeVis::init_neg_table()
 		}
 		sum_weights += weights[x] = pow(weights[x], 0.75);
 	}
-    next.clear(); vector<long long> (next).swap(next);
-    delete[] head; head = NULL;
+    	next.clear(); vector<long long> (next).swap(next);
+    	delete[] head; head = NULL;
 	neg_table = new int[neg_size];
 	dd = weights[0];
 	for (i = x = 0; i < neg_size; ++i)
