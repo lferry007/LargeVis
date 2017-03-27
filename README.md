@@ -7,6 +7,12 @@ Contact person: Jian Tang, tangjianpku@gmail.com. This work is done when the aut
 Both C++ source codes and Python wrapper are provided on Linux, OS X and Windows. To install the package, external packages are required, including [GSL (GNU Scientific Library)](http://www.gnu.org/software/gsl/) on Linux and OS X or [BOOST](http://www.boost.org/) on Windows for generating random numbers.
 
 ####Linux
+
+Install gsl (Debian):
+```
+sudo apt-get install libgsl0-dev
+```
+
 Compile the source files via:
 ```
 g++ LargeVis.cpp main.cpp -o LargeVis -lm -pthread -lgsl -lgslcblas -Ofast -march=native -ffast-math
