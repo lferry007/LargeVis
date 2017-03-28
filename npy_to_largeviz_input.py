@@ -37,6 +37,21 @@ def npy_to_largeviz_txt(filename_input, filename_output=None):
             writer.writerow(vector.tolist())
 
 
+def largeviz_txt_to_npy(filename_input, filename_output=None):
+    logger.info("largeviz_txt_to_npy() on %s", filename_input)
+    with open(filename_input, 'r') as fp:
+        reader = csv.reader(fp, delimiter=' ')
+        shape = map(int, reader.next())
+        logger.info("shape=%s", shape)
+        vectors = np.zeros(shape)
+        for row_num, row in enumerate(reader):
+            vectors[row_num, :] = np.array(row)
+    if not filename_output:
+        filename_output = '%s.npy' % filename_input
+    logger.info("Saving result to %s", filename_output)
+    np.save(filename_output, vectors)
+
+
 def setup_logger():
     logger.setLevel(logging.INFO)
     logger.handlers = []
@@ -52,7 +67,10 @@ def main():
     setup_logger()
     filename_input = sys.argv[1]
     filename_output = len(sys.argv) > 2 and sys.argv[2]
-    npy_to_largeviz_txt(filename_input, filename_output)
+    if filename_input.endswith('.txt'):
+        largeviz_txt_to_npy(filename_input, filename_output)
+    else:
+        npy_to_largeviz_txt(filename_input, filename_output)
 
 
 if __name__ == '__main__':
