@@ -40,5 +40,3 @@ if args.range != '':
     plt.ylim(-l, l)
 plt.savefig(args.output, dpi = 500)
 
-
-
