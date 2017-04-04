@@ -1,6 +1,19 @@
 #include "Python.h"
 #include "LargeVis.h"
 
+struct module_state {
+    PyObject *error;
+};
+
+#if PY_MAJOR_VERSION >= 3
+#define IS_PY3K
+#define GETSTATE(m) ((struct module_state*)PyModule_GetState(m))
+#else
+#define GETSTATE(m) (&_state)
+static struct module_state _state;
+#endif
+
+
 real *out_vec;
 LargeVis model;
 char *filename;
@@ -94,7 +107,11 @@ static PyObject *LoadFromList(PyObject *self, PyObject *args)
 		}
 		for (long long j = 0; j < n_dim; ++j)
 		{
+#ifdef IS_PY3K
+			real x = atof(PyBytes_AS_STRING(PyObject_Bytes(PyList_GetItem(vec, j))));
+#else
 			real x = atof(PyString_AsString(PyObject_Str(PyList_GetItem(vec, j))));
+#endif
 			data[ll + j] = x;
 		}
 	}
@@ -114,7 +131,8 @@ static PyObject *SaveToFile(PyObject *self, PyObject *args)
 	return Py_None;
 }
 
-static PyMethodDef PyExtMethods[] =
+
+static PyMethodDef LargeVis_methods[] =
 {
 	{ "run", Run, METH_VARARGS, "(All arguments are optional.\nrun(output dimension, threads number, training samples, propagations number, learning rate, rp-trees number, negative samples number, neighbors number, gamma, perplexity)\nFire up LargeVis." },
 	{ "loadfile", LoadFromFile, METH_VARARGS, "loadfile(str filename)\nLoad high-dimensional feature vectors from file." },
@@ -124,8 +142,58 @@ static PyMethodDef PyExtMethods[] =
 	{ NULL, NULL, 0, NULL }
 };
 
-PyMODINIT_FUNC initLargeVis()
+#if PY_MAJOR_VERSION >= 3
+
+static int LargeVis_traverse(PyObject *m, visitproc visit, void *arg) {
+    Py_VISIT(GETSTATE(m)->error);
+    return 0;
+}
+
+static int LargeVis_clear(PyObject *m) {
+    Py_CLEAR(GETSTATE(m)->error);
+    return 0;
+}
+static struct PyModuleDef moduledef = {
+        PyModuleDef_HEAD_INIT,
+        "myextension",
+        NULL,
+        sizeof(struct module_state),
+        LargeVis_methods,
+        NULL,
+        LargeVis_traverse,
+        LargeVis_clear,
+        NULL
+};
+
+#define INITERROR return NULL
+
+PyMODINIT_FUNC
+PyInit_myextension(void)
+
+#else
+#define INITERROR return
+
+void
+initLargeVis(void)
+#endif
 {
 	printf("LargeVis successfully imported!\n");
-	Py_InitModule("LargeVis", PyExtMethods);
+#if PY_MAJOR_VERSION >= 3
+    PyObject *module = PyModule_Create(&moduledef);
+#else
+	PyObject *module = Py_InitModule("LargeVis", LargeVis_methods);
+#endif
+	if (module == NULL)
+    INITERROR;
+    struct module_state *st = GETSTATE(module);
+
+    st->error = PyErr_NewException("LargeVis.Error", NULL, NULL);
+    if (st->error == NULL) {
+        Py_DECREF(module);
+        INITERROR;
+    }
+
+#if PY_MAJOR_VERSION >= 3
+    return module;
+#endif
 }
