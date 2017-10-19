@@ -155,7 +155,7 @@ static int LargeVis_clear(PyObject *m) {
 }
 static struct PyModuleDef moduledef = {
         PyModuleDef_HEAD_INIT,
-        "myextension",
+        "LargeVis",
         NULL,
         sizeof(struct module_state),
         LargeVis_methods,
@@ -168,7 +168,7 @@ static struct PyModuleDef moduledef = {
 #define INITERROR return NULL
 
 PyMODINIT_FUNC
-PyInit_myextension(void)
+PyInit_LargeVis(void)
 
 #else
 #define INITERROR return
