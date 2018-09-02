@@ -1,5 +1,6 @@
 #include "Python.h"
 #include "LargeVis.h"
+#include "numpy/arrayobject.h"
 
 struct module_state {
     PyObject *error;
@@ -120,6 +121,51 @@ static PyObject *LoadFromList(PyObject *self, PyObject *args)
 	return Py_None;
 }
 
+static PyObject *LoadFromArray(PyObject *self, PyObject *args) 
+{
+	PyArrayObject *input;
+	long long n_vertices;
+	long long n_dim;
+
+	//printf("Starting LoadFromArray\n");
+
+	if (!PyArg_ParseTuple(args, "O", &input)) return NULL;
+
+	if (NULL == input) return NULL;
+
+	//printf("Got input object parsed as array\n");
+	
+	// Verify we have a 2D array of doubles
+	if ((PyArray_NDIM(input) != 2) || (!PyArray_ISFLOAT(input))) return NULL;
+
+	n_vertices = PyArray_DIM(input, 0);
+	n_dim = PyArray_DIM(input, 1);
+
+	//printf("Read array data as shape (%i, %i)\n", n_vertices, n_dim);
+
+	//real *data = new real[n_vertices * n_dim];
+
+	//printf("Allocated new data array\n", n_vertices, n_dim);
+
+	real *indata = (real *) PyArray_DATA(input);
+
+	// printf("Got pointer to input data\n");
+
+	// for (long long i = 0; i < n_vertices; ++i) {
+	// 	printf("Processing row %i\n", i);
+	// 	for (long long j = 0; j < n_dim; ++j) {
+	// 		// data[i * n_dim + j] = (real) *((real *) PyArray_GETPTR2(input, i, j));
+	// 		printf("processing col %i\n", j);
+	// 		data[i * n_dim + j] = indata[i * n_dim + j];
+	// 	}
+	// }
+
+	//printf("Completed reading in data from numpy array\n");
+
+	model.load_from_data(indata, n_vertices, n_dim);
+	return Py_None;
+}
+
 static PyObject *SaveToFile(PyObject *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple(args, "s", &filename))
@@ -138,6 +184,7 @@ static PyMethodDef LargeVis_methods[] =
 	{ "loadfile", LoadFromFile, METH_VARARGS, "loadfile(str filename)\nLoad high-dimensional feature vectors from file." },
 	{ "loadgraph", LoadFromGraph, METH_VARARGS, "loadfile(str filename)\nLoad graph from file." },
 	{ "loaddata", LoadFromList, METH_VARARGS, "loaddata(X)\nLoad data from list." },
+	{ "loadarray", LoadFromArray, METH_VARARGS, "loadarray(X)\nLoad data from a numpy array."},
 	{ "save", SaveToFile, METH_VARARGS, "save(str filename)\nSave data to file." },
 	{ NULL, NULL, 0, NULL }
 };
@@ -173,11 +220,10 @@ PyInit_LargeVis(void)
 #else
 #define INITERROR return
 
-void
+PyMODINIT_FUNC
 initLargeVis(void)
 #endif
 {
-	printf("LargeVis successfully imported!\n");
 #if PY_MAJOR_VERSION >= 3
     PyObject *module = PyModule_Create(&moduledef);
 #else
