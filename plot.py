@@ -28,7 +28,7 @@ with open(args.input) as f:
         vec = line.strip().split(' ')
         all_data.setdefault(labels.get(vec[0], 0), []).append((float(vec[-2]), float(vec[-1])))
 
-colors = plt.cm.rainbow(numpy.linspace(0, 1, len(all_data)))
+colors = plt.cm.tab10(numpy.linspace(0, 1, len(all_data)))
 
 for color, label in zip(colors, sorted(all_data.keys())):
     x = [t[0] for t in all_data[label]]
