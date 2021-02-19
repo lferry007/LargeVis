@@ -62,28 +62,28 @@ For networks, each line of the input file is a DIRECTED edge. For each undirecte
 ```
 For C++ executable file,
 ```bash
-./LargeVis -input -output
+./LargeVis --input INPUT --output OUTPUT
 ```
 or for Python,
 ```bash
-python LargeVis_run.py -input -output
+python LargeVis_run.py --input INPUT --output OUTPUT
 ```
 
-* `-input`: Input file of feature vectors or networks (see the Example folders for input format).
-* `-output`: Output file of low-dimensional representations.
+* `--input`: Input file of feature vectors or networks (see the Example folders for input format).
+* `--output`: Output file of low-dimensional representations.
 
 Besides the two parameters, other optional parameters include:
-* `-fea`: specify whether the input file is high-dimensional feature vectors (1) or networks (0). Default is 1. 
-* `-threads`: Number of threads. Default is 8.
-* `-outdim`: The lower dimensionality LargesVis learns for visualization (usually 2 or 3). Default is 2.
-* `-samples`: Number of edge samples for graph layout (in millions). Default is set to ```data size / 100``` (million). 
-* `-prop`: Number of times for neighbor propagations in the state of K-NNG construction, usually less than 3. Default is 3.
-* `-alpha`: Initial learning rate. Default is 1.0.
-* `-trees`: Number of random-projection trees used for constructing K-NNG. 50 is sufficient for most cases unless you are dealing with very large datasets (e.g. data size over 5 million), and less trees are suitable for smaller datasets. Default is set according to the data size.
-* `-neg`: Number of negative samples used for negative sampling. Default is 5.
-* `-neigh`: Number of neighbors (K) in K-NNG, which is usually set as three times of perplexity. Default is 150.
-* `-gamma`: The weights assigned to negative edges. Default is 7.
-* `-perp`: The perplexity used for deciding edge weights in K-NNG. Default is 50.
+* `--fea`: specify whether the input file is high-dimensional feature vectors (1) or networks (0). Default is 1. 
+* `--threads`: Number of threads. Default is 8.
+* `--outdim`: The lower dimensionality LargesVis learns for visualization (usually 2 or 3). Default is 2.
+* `--samples`: Number of edge samples for graph layout (in millions). Default is set to ```data size / 100``` (million). 
+* `--prop`: Number of times for neighbor propagations in the state of K-NNG construction, usually less than 3. Default is 3.
+* `--alpha`: Initial learning rate. Default is 1.0.
+* `--trees`: Number of random-projection trees used for constructing K-NNG. 50 is sufficient for most cases unless you are dealing with very large datasets (e.g. data size over 5 million), and less trees are suitable for smaller datasets. Default is set according to the data size.
+* `--neg`: Number of negative samples used for negative sampling. Default is 5.
+* `--neigh`: Number of neighbors (K) in K-NNG, which is usually set as three times of perplexity. Default is 150.
+* `--gamma`: The weights assigned to negative edges. Default is 7.
+* `--perp`: The perplexity used for deciding edge weights in K-NNG. Default is 50.
 
 ## Examples
 
@@ -91,8 +91,8 @@ We provide some examples including MNIST(high-dimensional feature vectors) and C
 
 For example, to visualize the MNIST dataset,
 ```bash
-python LargeVis_run.py -input mnist_vec784D.txt -output mnist_vec2D.txt -threads 16
-python plot.py -input mnist_vec2D.txt -label mnist_label.txt -output mnist_vec2D_plot
+python LargeVis_run.py --input mnist_vec784D.txt --output mnist_vec2D.txt --threads 16
+python plot.py --input mnist_vec2D.txt --label mnist_label.txt --output mnist_vec2D_plot
 ```
 
 ![plot of mnist](Examples/MNIST/mnist_plot.png)

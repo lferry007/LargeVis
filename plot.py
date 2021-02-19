@@ -7,10 +7,10 @@ import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('-input', default='', help='input file', required=True)
-parser.add_argument('-label', default='', help='label file')
-parser.add_argument('-output', default='', help='output file', required=True)
-parser.add_argument('-range', default='', help='axis range')
+parser.add_argument('--input', '-i', default='', help='input file', required=True)
+parser.add_argument('--label', '-l', default='', help='label file')
+parser.add_argument('--output', '-o', default='', help='output file', required=True)
+parser.add_argument('--range', '-r', default='', help='axis range')
 
 args = parser.parse_args()
 
