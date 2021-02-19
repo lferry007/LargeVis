@@ -6,11 +6,12 @@
 char infile[1000], outfile[1000];
 long long if_embed = 1, out_dim = -1, n_samples = -1, n_threads = -1, n_negative = -1, n_neighbors = -1, n_trees = -1, n_propagation = -1;
 real alpha = -1, n_gamma = -1, perplexity = -1;
+bool use_default_weight = false;
 
 int ArgPos(char *str, int argc, char **argv) {
 	int a;
 	for (a = 1; a < argc; a++) if (!strcmp(str, argv[a])) {
-		if (a == argc - 1) {
+		if (a == argc - 1 && strcmp(str, "--default-weight")) {
 			printf("Argument missing for %s\n", str);
 			exit(1);
 		}
@@ -35,6 +36,7 @@ int main(int argc, char **argv)
 	if ((i = ArgPos((char *)"--alpha", argc, argv)) > 0) alpha = atof(argv[i + 1]);
 	if ((i = ArgPos((char *)"--gamma", argc, argv)) > 0) n_gamma = atof(argv[i + 1]);
 	if ((i = ArgPos((char *)"--perp", argc, argv)) > 0) perplexity = atof(argv[i + 1]);
+	if ((i = ArgPos((char *)"--default-weight", argc, argv)) > 0) use_default_weight = true;
 
 	if (argc < 3 || strlen(infile) == 0 || strlen(outfile) == 0)
 	{
@@ -51,6 +53,7 @@ int main(int argc, char **argv)
 		printf("--neigh: Number of neighbors (K) in K-NNG, which is usually set as three times of perplexity. Default is 150.\n");
 		printf("--gamma: The weights assigned to negative edges. Default is 7.\n");
 		printf("--perp: The perplexity used for deciding edge weights in K-NNG. Default is 50.\n");
+		printf("--default-weight: Use 1 as weight of edges instead of reading weight from edge list.\n");
 		return 2;
 	}
 
@@ -58,7 +61,7 @@ int main(int argc, char **argv)
 	if (if_embed)
 		model.load_from_file(infile);
 	else
-		model.load_from_graph(infile);
+		model.load_from_graph(infile, use_default_weight);
 
 	model.run(out_dim, n_threads, n_samples, n_propagation, alpha, n_trees, n_negative, n_neighbors, n_gamma, perplexity);
 

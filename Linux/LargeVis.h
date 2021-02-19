@@ -67,7 +67,7 @@ private:
 public:
 	LargeVis();
 	void load_from_file(char *infile);
-	void load_from_graph(char *infile);
+	void load_from_graph(char *infile, bool use_default_weight = false);
 	void load_from_data(real *data, long long n_vert, long long n_di);
 	void save(char *outfile);
 	void run(long long out_d = -1, long long n_thre = -1, long long n_samp = -1, long long n_prop = -1, real alph = -1, long long n_tree = -1, long long n_nega = -1, long long n_neig = -1, real gamm = -1, real perp = -1);

@@ -80,7 +80,17 @@ void LargeVis::load_from_data(real *data, long long n_vert, long long n_di)
 	printf("Total vertices : %lld\tDimension : %lld\n", n_vertices, n_dim);
 }
 
-void LargeVis::load_from_graph(char *infile)
+bool load_edge_from_graph(FILE *fin, char *w1, char *w2, real *weight, bool use_default_weight) {
+	if (use_default_weight)
+	{
+		(*weight) = 1;
+		return fscanf(fin, "%s%s", w1, w2) == 2;
+	}
+	else
+		return fscanf(fin, "%s%s%f", w1, w2, weight) == 3;
+}
+
+void LargeVis::load_from_graph(char *infile, bool use_default_weight)
 {
 	clean_data();
 	char *w1 = new char[1000];
@@ -96,7 +106,7 @@ void LargeVis::load_from_graph(char *infile)
 		return;
 	}
 	printf("Reading input file %s ......%c", infile, 13);
-	while (fscanf(fin, "%s%s%f", w1, w2, &weight) == 3)
+	while (load_edge_from_graph(fin, w1, w2, &weight, use_default_weight))
 	{
 		if (!dict.count(w1)) { dict[w1] = n_vertices++; names.push_back(w1); }
 		if (!dict.count(w2)) { dict[w2] = n_vertices++; names.push_back(w2); }
