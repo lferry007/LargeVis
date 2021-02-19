@@ -1,8 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+
+import argparse
 
 import numpy
 import matplotlib.pyplot as plt
-import argparse
 
 parser = argparse.ArgumentParser()
 
@@ -13,22 +14,19 @@ parser.add_argument('-range', default='', help='axis range')
 
 args = parser.parse_args()
 
-label = []
+labels = {}
 if args.label != '':
-    for line in open(args.label):
-        label.append(line.strip())
+    with open(args.label) as f:
+        for line in f:
+            node_id, label = line.strip().split()
+            labels[node_id] = label
 
-N = M = 0
 all_data = {}
-for i, line in enumerate(open(args.input)):
-    vec = line.strip().split(' ')
-    if i == 0:
-        N = int(vec[0])
-        M = int(vec[1])
-    elif i <= N:
-        if args.label == '':
-            label.append(0)
-        all_data.setdefault(label[i-1], []).append((float(vec[-2]), float(vec[-1])))
+with open(args.input) as f:
+    _ = f.readline()  # ignore first line
+    for line in f:
+        vec = line.strip().split(' ')
+        all_data.setdefault(labels.get(vec[0], 0), []).append((float(vec[-2]), float(vec[-1])))
 
 colors = plt.cm.rainbow(numpy.linspace(0, 1, len(all_data)))
 
