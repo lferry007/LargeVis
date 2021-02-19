@@ -6,12 +6,12 @@ import numpy
 import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser()
-
 parser.add_argument('--input', '-i', default='', help='input file', required=True)
 parser.add_argument('--label', '-l', default='', help='label file')
 parser.add_argument('--output', '-o', default='', help='output file', required=True)
-parser.add_argument('--range', '-r', default='', help='axis range')
-
+parser.add_argument('--range', '-r', type=float, help='axis range')
+parser.add_argument('--no-axis', '-n', help='hide axis', action='store_true')
+parser.add_argument('--legend', '-s', help='show legend', action='store_true')
 args = parser.parse_args()
 
 labels = {}
@@ -30,12 +30,20 @@ with open(args.input) as f:
 
 colors = plt.cm.rainbow(numpy.linspace(0, 1, len(all_data)))
 
-for color, ll in zip(colors, sorted(all_data.keys())):
-    x = [t[0] for t in all_data[ll]]
-    y = [t[1] for t in all_data[ll]]
-    plt.plot(x, y, '.', color=color, markersize=1)
-if args.range != '':
-    l = abs(float(args.range))
-    plt.xlim(-l, l)
-    plt.ylim(-l, l)
+for color, label in zip(colors, sorted(all_data.keys())):
+    x = [t[0] for t in all_data[label]]
+    y = [t[1] for t in all_data[label]]
+    plt.plot(x, y, '.', color=color, markersize=1, label=label)
+
+if args.range:
+    axis_limit = abs(float(args.range))
+    plt.xlim(-axis_limit, axis_limit)
+    plt.ylim(-axis_limit, axis_limit)
+
+if args.no_axis:
+    plt.axis('off')
+
+if args.legend:
+    plt.legend()
+
 plt.savefig(args.output, dpi=500)
