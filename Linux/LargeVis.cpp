@@ -57,13 +57,22 @@ void LargeVis::load_from_file(char *infile)
 		return;
 	}
 	printf("Reading input file %s ......", infile); fflush(stdout);
-	fscanf(fin, "%lld%lld", &n_vertices, &n_dim);
+	if (fscanf(fin, "%lld%lld", &n_vertices, &n_dim) != 2) {
+		printf("Could not read dimensions\n");
+		fclose(fin);
+		exit(1);
+	}
 	vec = new real[n_vertices * n_dim];
 	for (long long i = 0; i < n_vertices; ++i)
 	{
 		for (long long j = 0; j < n_dim; ++j)
 		{
-			fscanf(fin, "%f", &vec[i * n_dim + j]);
+			if (fscanf(fin, "%f", &vec[i * n_dim + j]) != 1)
+			{
+				fclose(fin);
+				printf("Could not read line %lld\n", i + 1);
+				exit(1);
+			}
 		}
 	}
 	fclose(fin);
@@ -358,7 +367,7 @@ void LargeVis::run_propagation()
 {
 	for (int i = 0; i < n_propagations; ++i)
 	{
-		printf("Running propagation %d/%d%c", i + 1, n_propagations, 13);
+		printf("Running propagation %d/%lld%c", i + 1, n_propagations, 13);
 		fflush(stdout);
 		old_knn_vec = knn_vec;
 		knn_vec = new std::vector<int>[n_vertices];
