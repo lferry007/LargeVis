@@ -1,38 +1,44 @@
-#LargeVis
+# LargeVis
+
 This is the *official* implementation of the **LargeVis** model by the original authors, which is used to visualize large-scale and high-dimensional data [(Tang, Liu, Zhang and Mei)](https://arxiv.org/abs/1602.00370). It now supports visualizing both high-dimensional feature vectors and networks. The package also contains a very efficient algorithm for constructing K-nearest neighbor graph (K-NNG).
 
 Contact person: Jian Tang, tangjianpku@gmail.com. This work is done when the author is in Microsoft Research Asia.
 
-##Install
+## Install
+
 Both C++ source codes and Python wrapper are provided on Linux, OS X and Windows. To install the package, external packages are required, including [GSL (GNU Scientific Library)](http://www.gnu.org/software/gsl/) on Linux and OS X or [BOOST](http://www.boost.org/) on Windows for generating random numbers.
 
-####Linux
+#### Linux
+
 Compile the source files via:
-```
+```bash
 g++ LargeVis.cpp main.cpp -o LargeVis -lm -pthread -lgsl -lgslcblas -Ofast -march=native -ffast-math
 ```
 
 To install the Python wrapper, modify ```setup.py``` to make sure that the GSL path is correctly set and then run ```sudo python setup.py install```.
 
-####OS X
+#### OS X
+
 Install gsl using [Homebrew](http://brew.sh/):
-```
+```bash
 brew install gsl
 ```
 
 Modify line 347 of ```annoylib.h``` to change ```lseek64``` to ```lseek```. Then compile the source files (in the Linux folder) via:
-```
+```bash
 g++ LargeVis.cpp main.cpp -o LargeVis -lm -pthread -lgsl -lgslcblas -Ofast -march=native -ffast-math -L/usr/local/lib -I/usr/local/include
 ```
 
 To install the Python wrapper, run ```sudo python setup.py install```.
 
-####Windows
+#### Windows
+
 To compile the source files, use Microsoft Visual Studio, where you need to set the BOOST path.
 
 To install the Python wrapper, modify ```setup.py``` to make sure that the BOOST path is correctly set and then run ```python setup.py install```.
 
-##Usage
+## Usage
+
 LargeVis is suitable for visualizing both high-dimensional feature vectors and networks. For high-dimensional feature vectors, the format of input file should be as follows: the first line specifies the number of feature vectors and the dimensionality (500 vectors with 10 dimensions in the following example), and each of the next 500 lines describes one feature vector with 10 float numbers.
 ```
 500 10
@@ -55,11 +61,11 @@ For networks, each line of the input file is a DIRECTED edge. For each undirecte
 495 498 1.5
 ```
 For C++ executable file,
-```
+```bash
 ./LargeVis -input -output
 ```
 or for Python,
-```
+```bash
 python LargeVis_run.py -input -output
 ```
 
@@ -79,11 +85,12 @@ Besides the two parameters, other optional parameters include:
 * `-gamma`: The weights assigned to negative edges. Default is 7.
 * `-perp`: The perplexity used for deciding edge weights in K-NNG. Default is 50.
 
-##Examples
+## Examples
+
 We provide some examples including MNIST(high-dimensional feature vectors) and CondMat(networks) in the ```Examples/``` folder.
 
 For example, to visualize the MNIST dataset,
-```
+```bash
 python LargeVis_run.py -input mnist_vec784D.txt -output mnist_vec2D.txt -threads 16
 python plot.py -input mnist_vec2D.txt -label mnist_label.txt -output mnist_vec2D_plot
 ```
@@ -91,8 +98,10 @@ python plot.py -input mnist_vec2D.txt -label mnist_label.txt -output mnist_vec2D
 ![plot of mnist](Examples/MNIST/mnist_plot.png)
 
 Please cite the following paper if you use LargeVis to visualize your data.
-##Citation
-```
+
+## Citation
+
+```bibtex
 @inproceedings{tang2016visualizing,
   title={Visualizing Large-scale and High-dimensional Data},
   author={Tang, Jian and Liu, Jingzhou and Zhang, Ming and Mei, Qiaozhu},
@@ -102,5 +111,7 @@ Please cite the following paper if you use LargeVis to visualize your data.
   organization={International World Wide Web Conferences Steering Committee}
 }
 ```
-##Acknowledgement
+
+## Acknowledgement
+
 Some methods of this package are from a previous work of the LargeVis authors, [LINE (Large-scale Information Network Embedding)](https://github.com/tangjianpku/LINE).
