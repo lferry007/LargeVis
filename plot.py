@@ -6,9 +6,9 @@ import argparse
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('-input', default='', help='input file')
+parser.add_argument('-input', default='', help='input file', required=True)
 parser.add_argument('-label', default='', help='label file')
-parser.add_argument('-output', default='', help='output file')
+parser.add_argument('-output', default='', help='output file', required=True)
 parser.add_argument('-range', default='', help='axis range')
 
 args = parser.parse_args()
