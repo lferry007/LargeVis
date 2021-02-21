@@ -46,4 +46,5 @@ if args.no_axis:
 if args.legend:
     plt.legend()
 
+plt.gca().set_aspect('equal', adjustable='box')
 plt.savefig(args.output, dpi=500)
