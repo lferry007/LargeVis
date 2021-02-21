@@ -26,7 +26,7 @@ with open(args.input) as f:
     _ = f.readline()  # ignore first line
     for line in f:
         vec = line.strip().split(' ')
-        all_data.setdefault(labels.get(vec[0], 0), []).append((float(vec[-2]), float(vec[-1])))
+        all_data.setdefault(labels.get(vec[0], ''), []).append((float(vec[-2]), float(vec[-1])))
 
 colors = plt.cm.tab10(numpy.linspace(0, 1, len(all_data)))
 
