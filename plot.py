@@ -49,6 +49,8 @@ for color, cluster in zip(colors, sorted(positions_by_cluster.keys())):
 
 
 for node in lables:
+    if node not in positions:
+        continue
     x, y = positions[node]
     plt.annotate(node, xy=(x, y), xytext=(x - 3, y - 3), arrowprops=dict(arrowstyle="-"), fontsize="xx-small")
 
